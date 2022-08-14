@@ -1,0 +1,39 @@
+CREATE TABLE shoe_store (id INTEGER PRIMARY KEY, name TEXT, price INTEGER, size INTEGER, color TEXT, brand TEXT);
+
+INSERT INTO shoe_store VALUES 
+(1, "Nike Air Force 1", 109.99, 9.5, "white", "Nike"),
+(2, "Vans Old Skool", 64.99, 7, "black/white", "Vans"),
+(3, "Adidas NMD", 149.99, 8.5, "white", "Adidas"),
+(4, "Air Jordan 1", 139.99, 9, "black/red", "Nike"),
+(5, "Converse Chuck Taylor", 64.99, 10, "black/white", "Converse"),
+(6, "Nike Air Max", 139.99, 9, "black", "Nike"),
+(7, "Adidas Ultraboost", 179.99, 7.5, "white", "Adidas"),
+(8, "Adidas Stan Smith", 94.99, 10.5, "white/green", "Adidas"),
+(9, "Air Jordan 11", 209.99, 10, "gray/white", "Nike"),
+(10, "Nike Blazer", 104.99, 9.5, "black/white", "Nike"),
+(11, "Nike ZoomX Flyknit", 179.99, 7, "red/white/green", "Nike"),
+(12, "New Balance 574", 84.99, 9, "grey/white", "New Balance"),
+(13, "Under Armour Charged Assert", 64.99, 8, "black/white", "Under Armour"),
+(14, "Vans Checkerboard Slip-On", 49.99, 8.5, "black/white", "Vans"),
+(15, "Puma R78", 34.99, 10, "black/white", "Vans");
+
+-- Displays database in order of price
+SELECT * 
+FROM shoe_store 
+ORDER BY price asc;
+
+-- Displays average price of all shoes that are of Nike brand
+SELECT avg(price) "Average price of Nike shoes"
+FROM shoe_store
+WHERE brand="Nike";
+
+-- Displays all shoes which are of size 8.5 or 9
+SELECT *
+FROM shoe_store
+WHERE size=8.5 or size=9;
+
+-- Displays the top 5 highest priced shoes in the store (lowest 5 can be found by changing desc to asc)
+SELECT name, price
+FROM shoe_store
+ORDER BY price desc
+limit 5;
