@@ -12,7 +12,7 @@ INSERT INTO shoe_store VALUES
 (9, "Air Jordan 11", 209.99, 10, "gray/white", "Nike"),
 (10, "Nike Blazer", 104.99, 9.5, "black/white", "Nike"),
 (11, "Nike ZoomX Flyknit", 179.99, 7, "red/white/green", "Nike"),
-(12, "New Balance 574", 84.99, 9, "grey/white", "New Balance"),
+(12, "New Balance 574", 84.99, 9, "gray/white", "New Balance"),
 (13, "Under Armour Charged Assert", 64.99, 8, "black/white", "Under Armour"),
 (14, "Vans Checkerboard Slip-On", 49.99, 8.5, "black/white", "Vans"),
 (15, "Puma R78", 34.99, 10, "black/white", "Vans");
