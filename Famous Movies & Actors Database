@@ -1,0 +1,26 @@
+CREATE TABLE movies (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, genre TEXT, release_year TEXT, rating TEXT);
+
+INSERT INTO movies (name, genre, release_year, rating) VALUES ("Black Panther", "Action/Adventure", 2018, "PG-13");
+INSERT INTO movies (name, genre, release_year, rating) VALUES ("Skyfall", "Action/Thriller", 2012, "PG-13");
+INSERT INTO movies (name, genre, release_year, rating) VALUES ("Avengers: Endgame", "Action/Sci-Fi", 2019, "PG-13");
+INSERT INTO movies (name, genre, release_year, rating) VALUES ("The Bone Collector", "Thriller/Crime", 1999, "R");
+INSERT INTO movies (name, genre, release_year, rating) VALUES ("The Hunger Games", "Action/Sci-Fi", 2012, "PG-13");
+
+CREATE TABLE actors (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, gender TEXT, age INTEGER, movie_id INTEGER);
+
+INSERT INTO actors (name, gender, age, movie_id) VALUES ("Robert Downey Jr.", "male", 57, 3);
+INSERT INTO actors (name, gender, age, movie_id) VALUES ("Angelina Jolie", "female", 47, 4);
+INSERT INTO actors (name, gender, age, movie_id) VALUES ("Daniel Kaluuya", "male", 33, 1);
+INSERT INTO actors (name, gender, age, movie_id) VALUES ("Jennifer Lawrence", "female", 32, 5);
+INSERT INTO actors (name, gender, age, movie_id) VALUES ("Daniel Craig", "male", 54, 2);
+INSERT INTO actors (name, gender, age, movie_id) VALUES ("Sandra Bullock", "female", 58, NULL);
+INSERT INTO actors (name, gender, age, movie_id) VALUES ("Scarlett Johannson", "female", 37, 3);
+INSERT INTO actors (name, gender, age, movie_id) VALUES ("Matt Damon", "male", 52, NULL);
+INSERT INTO actors (name, gender, age, movie_id) VALUES ("Michael B. Jordan", "male", 35, 1);
+INSERT INTO actors (name, gender, age, movie_id) VALUES ("Denzel Washington", "male", 67, 4);
+
+-- What movie is each actor in?
+SELECT actors.name as actor, movies.name as movie
+FROM actors
+LEFT OUTER JOIN movies -- left outer join accounts for actor not having a matching movie
+ON movies.id = actors.movie_id;
