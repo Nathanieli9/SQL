@@ -1,0 +1,60 @@
+-- In this project, I downloaded Spotify data from Kaggle, created a table to insert Spotify data into, and performed relevant queries on the data.
+
+--Created the table
+CREATE TABLE BIT_DB.Spotifydata (
+id integer PRIMARY KEY,
+artist_name varchar NOT NULL,
+track_name varchar NOT NULL,
+track_id varchar NOT NULL,
+popularity integer NOT NULL,
+danceability decimal(4,3) NOT NULL,
+energy decimal(4,3) NOT NULL,
+key integer NOT NULL,
+loudness decimal(5,3) NOT NULL,
+mode integer NOT NULL,
+speechiness decimal(5,4) NOT NULL,
+acousticness decimal(6,5) NOT NULL,
+instrumentalness text NOT NULL,
+liveness decimal(5,4) NOT NULL,
+valence decimal(4,3) NOT NULL,
+tempo decimal(6,3) NOT NULL,
+duration_ms integer NOT NULL,
+time_signature integer NOT NULL 
+)
+
+--After creating the table, I imported the Spotify data from a .csv file
+
+--I performed queries to explore the data in the following segment.
+
+--How many songs does each artist have on the list?
+SELECT artist_name, count(track_name) as number_of_songs
+FROM BIT_DB.Spotifydata
+GROUP BY artist_name
+ORDER BY number_of_songs desc;
+
+--Which artist released the longest song?
+SELECT artist_name, track_name
+FROM BIT_DB.Spotifydata
+ORDER BY duration_ms desc
+LIMIT 1;
+
+--What is the average energy and danceability of top 10 most popular songs?
+SELECT avg(energy) as average_energy, avg(danceability) as average_danceability
+FROM BIT_DB.Spotifydata
+WHERE track_name IN (SELECT track_name FROM BIT_DB.Spotifydata ORDER BY popularity desc LIMIT 10);
+
+--Which song has the highest combination of energy and danceability?
+SELECT artist_name, track_name, energy+danceability as energy_and_danceability
+FROM BIT_DB.Spotifydata
+ORDER BY energy_and_danceability desc
+LIMIT 1;
+
+--Assess the popularity of the songs by assigning a tier-like ranking to each.
+SELECT artist_name, track_name,
+CASE
+    WHEN popularity >= 90 THEN 'Extremely popular'
+    WHEN popularity >= 80 AND popularity <= 89 THEN 'Very popular'
+    WHEN popularity >= 70 AND popularity <= 79 THEN 'Moderately popular'
+    ELSE 'Somewhat popular'
+    END AS popularity_ranking
+FROM BIT_DB.Spotifydata;
