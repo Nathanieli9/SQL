@@ -1,0 +1,104 @@
+--In this project, I wrote queries for several tables that are linked together through common IDs
+
+--Show customers who are not in the US.
+SELECT firstname, lastname, customerid, country
+FROM chinook.customers
+WHERE country != 'United States';
+
+--Show only the customers from Brazil.
+SELECT firstname, lastname
+FROM chinook.customers
+WHERE country = 'Brazil';
+
+--Find the invoices of customers who are from Brazil. The resulting table should show the customer's full name, invoice ID, date of the invoice, and billing country.
+SELECT cust.firstname, cust.lastname, inv.invoiceid, inv.invoicedate, inv.billingcountry
+FROM chinook.customers cust
+JOIN chinook.invoices inv
+ON cust.CustomerID = inv.CustomerID
+WHERE cust.country = 'Brazil';
+
+--Show the employees who are sales agents.
+SELECT firstname, lastname, title
+FROM chinook.employees
+WHERE title = 'Sales Support Agent';
+
+--Find a unique/distinct list of billing countries from the Invoice table.
+SELECT distinct billingcountry
+FROM chinook.invoices;
+
+--Provide a query that shows the invoices associated with each sales agent. The resulting table should include the Sales Agent's full name.
+SELECT emp.firstname, emp.lastname, inv.invoiceid
+FROM chinook.customers cust
+JOIN chinook.employees emp
+ON cust.supportrepid = emp.employeeid
+JOIN chinook.invoices inv
+ON cust.customerid = inv.customerid
+WHERE emp.title = 'Sales Support Agent';
+
+--Show the invoice Total, customer name, country, and sales agent name for all invoices and customers.
+SELECT sum(inv.total) as invoice_total, cust.firstname as cust_fname, cust.lastname as cust_lname, cust.country as cust_country, emp.firstname as sales_agent_fname, emp.lastname as sales_agent_lname
+FROM chinook.customers cust
+JOIN chinook.invoices inv
+ON cust.customerid = inv.customerid
+JOIN chinook.employees emp
+ON cust.supportrepid = emp.employeeid
+WHERE emp.title = 'Sales Support Agent'
+GROUP BY cust.firstname, cust.lastname;
+
+--How many invoices were there in 2009?
+SELECT count(*)
+FROM chinook.invoices
+WHERE invoicedate like '2009%';
+
+--What are the total sales for 2009?
+SELECT sum(total) as '2009 Total Sales'
+FROM chinook.invoices
+WHERE InvoiceDate like '2009%';
+
+--Write a query that includes the purchased track name with each invoice line ID.
+SELECT tracks.name, inv_items.invoicelineid
+FROM chinook.tracks tracks
+JOIN chinook.invoice_items inv_items
+ON tracks.trackid = inv_items.trackid;
+
+--Write a query that includes the purchased track name AND artist name with each invoice line ID.
+SELECT tracks.name as track, artists.name artist, inv_items.invoicelineid
+FROM chinook.invoice_items inv_items
+JOIN chinook.tracks tracks
+ON inv_items.trackid = tracks.trackid
+JOIN chinook.albums albums
+ON tracks.albumid = albums.albumid
+JOIN chinook.artists artists
+ON albums.artistid = artists.artistid;
+
+--Provide a query that shows all the Tracks, and include the Album name, Media type, and Genre.
+SELECT tracks.name, albums.title, media_types.name, genres.name
+FROM chinook.tracks tracks
+JOIN chinook.albums albums
+ON tracks.albumid = albums.albumid
+JOIN chinook.media_types media_types
+ON media_types.mediatypeid = tracks.mediatypeid
+JOIN chinook.genres genres
+ON genres.genreid = tracks.genreid;
+
+--Show the total sales made by each sales agent.
+SELECT emp.firstname, emp.lastname, sum(total) as total_sales_made
+FROM chinook.employees emp
+JOIN chinook.customers cust
+ON emp.employeeid = cust.supportrepid
+JOIN chinook.invoices inv
+ON cust.customerid = inv.customerid
+WHERE emp.title = 'Sales Support Agent'
+GROUP BY emp.firstname, emp.lastname;
+
+--Which sales agent made the most dollars in sales in 2009?
+SELECT emp.firstname, emp.lastname, sum(total) as total_sales
+FROM chinook.employees emp
+JOIN chinook.customers cust
+ON emp.employeeid = cust.supportrepid
+JOIN chinook.invoices inv
+ON cust.customerid = inv.customerid
+WHERE emp.title = 'Sales Support Agent' AND inv.invoicedate LIKE '2009%'
+GROUP BY emp.firstname, emp.lastname
+ORDER BY total_sales desc
+LIMIT 1;
