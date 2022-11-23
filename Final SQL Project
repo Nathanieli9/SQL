@@ -36,14 +36,13 @@ ON cust.customerid = inv.customerid
 WHERE emp.title = 'Sales Support Agent';
 
 --Show the invoice Total, customer name, country, and sales agent name for all invoices and customers.
-SELECT sum(inv.total) as invoice_total, cust.firstname as cust_fname, cust.lastname as cust_lname, cust.country as cust_country, emp.firstname as sales_agent_fname, emp.lastname as sales_agent_lname
+SELECT cust.firstname as cust_fname, cust.lastname as cust_lname, cust.country as cust_country, emp.firstname as agent_fname, emp.lastname agent_lname, inv.total as invoice_total
 FROM chinook.customers cust
 JOIN chinook.invoices inv
 ON cust.customerid = inv.customerid
 JOIN chinook.employees emp
 ON cust.supportrepid = emp.employeeid
-WHERE emp.title = 'Sales Support Agent'
-GROUP BY cust.firstname, cust.lastname;
+WHERE emp.title = 'Sales Support Agent';
 
 --How many invoices were there in 2009?
 SELECT count(*)
