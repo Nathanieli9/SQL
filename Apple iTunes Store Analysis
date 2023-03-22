@@ -5,28 +5,56 @@ SELECT firstname, lastname, customerid, country
 FROM chinook.customers
 WHERE country != 'United States';
 
+/* 
+Insight:
+This query can be used to target customers outside the United States for marketing campaigns or 
+promotions. It can also help identify potential areas for international expansion.
+*/
+
 --Show only the customers from Brazil.
 SELECT firstname, lastname
 FROM chinook.customers
 WHERE country = 'Brazil';
 
---Find the invoices of customers who are from Brazil. The resulting table should show the customer's full name, invoice ID, date of the invoice, and billing country.
+/*
+Insight:
+This query can be useful for understanding the behavior and preferences of customers from a specific region.
+The results can be used to personalize marketing campaigns and improve customer retention.
+/*
+
+--Find the invoices of customers who are from Brazil.
 SELECT cust.firstname, cust.lastname, inv.invoiceid, inv.invoicedate, inv.billingcountry
 FROM chinook.customers cust
 JOIN chinook.invoices inv
 ON cust.CustomerID = inv.CustomerID
 WHERE cust.country = 'Brazil';
 
+/*
+Insight:
+This query can be used to analyze the purchasing behavior of customers in Brazil and identify the most popular products or services in this market.
+*/
+
 --Show the employees who are sales agents.
 SELECT firstname, lastname, title
 FROM chinook.employees
 WHERE title = 'Sales Support Agent';
 
---Find a unique/distinct list of billing countries from the Invoice table.
+/*
+Insight:
+This query can be used to identify the sales agents on the team, making it easier to assign tasks and measure performance.
+*/
+
+--Find a unique/distinct list of billing countries from the invoice table.
 SELECT distinct billingcountry
 FROM chinook.invoices;
 
---Provide a query that shows the invoices associated with each sales agent. The resulting table should include the Sales Agent's full name.
+/*
+Insight:
+This query can be used to identify which countries generate the most revenue, which can inform
+international expansion plans or help optimize marketing campaigns.
+*/
+
+--Provide a query that shows the invoices associated with each sales agent.
 SELECT emp.firstname, emp.lastname, inv.invoiceid
 FROM chinook.customers cust
 JOIN chinook.employees emp
@@ -35,7 +63,13 @@ JOIN chinook.invoices inv
 ON cust.customerid = inv.customerid
 WHERE emp.title = 'Sales Support Agent';
 
---Show the invoice Total, customer name, country, and sales agent name for all invoices and customers.
+/*
+Insight:
+This query can be used to understand the performance of sales agents and potentially identify areas for improvement or additional training.
+*/
+
+
+--Show the invoice total, customer name, country, and sales agent name for all invoices and customers.
 SELECT cust.firstname as cust_fname, cust.lastname as cust_lname, cust.country as cust_country, emp.firstname as agent_fname, emp.lastname agent_lname, inv.total as invoice_total
 FROM chinook.customers cust
 JOIN chinook.invoices inv
@@ -44,21 +78,43 @@ JOIN chinook.employees emp
 ON cust.supportrepid = emp.employeeid
 WHERE emp.title = 'Sales Support Agent';
 
+/*
+Insight:
+This information can be used to identify the top-performing sales agents and the most valuable customers. By analyzing
+this data, we can identify patterns in customer behavior and tailor marketing and sales efforts to increase revenue.
+*/
+
 --How many invoices were there in 2009?
 SELECT count(*)
 FROM chinook.invoices
 WHERE invoicedate like '2009%';
+
+/*
+Insight:
+This query can be used to track the company's sales growth over time and compare it to previous years.
+*/
 
 --What are the total sales for 2009?
 SELECT sum(total) as '2009 Total Sales'
 FROM chinook.invoices
 WHERE InvoiceDate like '2009%';
 
+/*
+Insight:
+This query can be used to track the company's revenue growth over time and identify trends in sales performance.
+*/
+
 --Write a query that includes the purchased track name with each invoice line ID.
 SELECT tracks.name, inv_items.invoicelineid
 FROM chinook.tracks tracks
 JOIN chinook.invoice_items inv_items
 ON tracks.trackid = inv_items.trackid;
+
+/*
+Insight:
+The query shows which tracks were purchased with each invoice, which can help identify popular songs and genres, 
+as well as identify which tracks are more likely to generate revenue.
+*/
 
 --Write a query that includes the purchased track name AND artist name with each invoice line ID.
 SELECT tracks.name as track, artists.name artist, inv_items.invoicelineid
@@ -70,7 +126,12 @@ ON tracks.albumid = albums.albumid
 JOIN chinook.artists artists
 ON albums.artistid = artists.artistid;
 
---Provide a query that shows all the Tracks, and include the Album name, Media type, and Genre.
+/*
+Insight:
+This query can be used to get a more comprehensive view of customers' purchasing behavior and potentially identify popular genres or artists.
+*/
+
+--Provide a query that shows all the tracks, and include the album name, media type, and genre.
 SELECT tracks.name, albums.title, media_types.name, genres.name
 FROM chinook.tracks tracks
 JOIN chinook.albums albums
@@ -79,6 +140,12 @@ JOIN chinook.media_types media_types
 ON media_types.mediatypeid = tracks.mediatypeid
 JOIN chinook.genres genres
 ON genres.genreid = tracks.genreid;
+
+/*
+Insight:
+This query can be used to understand the distribution of the music library across different genres,
+media types, and albums and potentially identify areas where the catalog can be expanded.
+*/
 
 --Show the total sales made by each sales agent.
 SELECT emp.firstname, emp.lastname, sum(total) as total_sales_made
@@ -89,6 +156,11 @@ JOIN chinook.invoices inv
 ON cust.customerid = inv.customerid
 WHERE emp.title = 'Sales Support Agent'
 GROUP BY emp.firstname, emp.lastname;
+
+/*
+Insight:
+This query can be used to measure the performance of individual sales agents and identify areas for improvement.
+*/
 
 --Which sales agent made the most dollars in sales in 2009?
 SELECT emp.firstname, emp.lastname, sum(total) as total_sales
@@ -101,3 +173,9 @@ WHERE emp.title = 'Sales Support Agent' AND inv.invoicedate LIKE '2009%'
 GROUP BY emp.firstname, emp.lastname
 ORDER BY total_sales desc
 LIMIT 1;
+
+/*
+Insight:
+This query can be used to identify the best-performing sales agent and learn from their sales strategies 
+to improve the performance of the rest of the sales team.
+*/
