@@ -1,8 +1,3 @@
-/*
-1st 3 rounds of the NFL 2015 Draft
-Collected by: https://www.khanacademy.org/profile/BobbyandKaren/
-*/
-
 CREATE TABLE picks(
 	id INTEGER PRIMARY KEY,
 	pick_number INTEGER,
@@ -216,6 +211,13 @@ FROM picks
 GROUP BY college
 ORDER BY count(*) desc;
 
+/*
+Insight:
+This information can be used by college recruiters and coaches to showcase their program's success in producing NFL talent.
+Additionally, NFL teams could use this data to identify colleges with a history of producing successful players
+and adjust their scouting strategies accordingly.
+*/
+
 -- In which round was each player selected?
 SELECT name, position, college,
 CASE
@@ -225,6 +227,13 @@ CASE
     END AS round_selected
 FROM picks;
 
+/*
+Insight:
+The information gained from this query can be used by teams to evaluate their draft success and determine which rounds are most valuable
+for specific positions. Additionally, this information can be used to identify trends in player selection across multiple years
+and make adjustments in future drafts.
+*/
+
 -- What was the highest, lowest, and average pick for each offensive position?
 SELECT position, count(*) as number_of_players_selected, min(pick_number) as highest_pick, max(pick_number) as lowest_pick, round(avg(pick_number)) as average_pick
 FROM picks
@@ -232,8 +241,20 @@ GROUP BY position
 HAVING position IN ("QB", "RB", "WR", "OT", "OG", "TE", "C")
 ORDER BY average_pick;
 
+/*
+Insight:
+This query identifies the most and least valuable positions in the draft based on where they tend to be selected, as this could
+be useful information for NFL teams when prioritizing their draft picks in future drafts.
+*/
+
 -- Which team had the most total draft picks?
 SELECT picked_by as team, count(*) as number_of_picks
 FROM picks
 GROUP BY picked_by
 ORDER BY count(*) desc;
+
+/*
+This query identifies the team with the most total draft picks, which can provide insights into team strategies for
+building their rosters. This information can be used to compare the success rates of different drafting strategies, such
+as whether teams with more picks have higher success rates than teams with fewer picks.
+*/
