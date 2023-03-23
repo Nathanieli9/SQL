@@ -1,4 +1,4 @@
---In this project, I wrote queries for several tables that are linked together through common IDs
+-- Apple iTunes Store Analysis Project
 
 --Show customers who are not in the US.
 SELECT firstname, lastname, customerid, country
