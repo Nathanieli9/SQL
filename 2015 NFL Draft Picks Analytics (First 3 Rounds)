@@ -1,3 +1,5 @@
+/* NFL Draft Picks Analysis Project */
+
 CREATE TABLE picks(
 	id INTEGER PRIMARY KEY,
 	pick_number INTEGER,
