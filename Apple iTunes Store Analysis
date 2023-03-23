@@ -1,4 +1,4 @@
--- Apple iTunes Store Analysis Project
+/* Apple iTunes Store Analysis Project */
 
 --Show customers who are not in the US.
 SELECT firstname, lastname, customerid, country
