@@ -256,6 +256,7 @@ GROUP BY picked_by
 ORDER BY count(*) desc;
 
 /*
+Insight:
 This query identifies the team with the most total draft picks, which can provide insights into team strategies for
 building their rosters. This information can be used to compare the success rates of different drafting strategies, such
 as whether teams with more picks have higher success rates than teams with fewer picks.
